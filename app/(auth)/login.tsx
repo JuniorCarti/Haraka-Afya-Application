@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Heart } from 'lucide-react-native';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    // In a real app, implement proper authentication
     if (email && password) {
       router.replace('/(tabs)');
     }
@@ -16,44 +16,61 @@ export default function LoginScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        <Image
-          source={{ uri: 'https://images.pexels.com/photos/3938022/pexels-photo-3938022.jpeg' }}
-          style={styles.logo}
-        />
-        
-        <Text style={styles.title}>Welcome Back</Text>
-        <Text style={styles.subtitle}>Sign in to continue</Text>
-        
-        <View style={styles.form}>
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <View style={styles.header}>
+          <Heart size={40} color="#4A90E2" />
+          <Text style={styles.appName}>Haraka Afya</Text>
+          <Text style={styles.appDescription}>
+            Your trusted healthcare companion for quick symptom checks and medical guidance
+          </Text>
+        </View>
+
+        <View style={styles.content}>
+          <Image
+            source={{ uri: 'https://images.pexels.com/photos/7579831/pexels-photo-7579831.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2' }}
+            style={styles.heroImage}
           />
           
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-          />
+          <Text style={styles.title}>Welcome Back</Text>
+          <Text style={styles.subtitle}>Sign in to access your health dashboard</Text>
           
-          <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-            <Text style={styles.loginButtonText}>Sign In</Text>
+          <View style={styles.form}>
+            <TextInput
+              style={styles.input}
+              placeholder="Email"
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
+            
+            <TextInput
+              style={styles.input}
+              placeholder="Password"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+            />
+            
+            <TouchableOpacity style={styles.forgotPassword}>
+              <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+              <Text style={styles.loginButtonText}>Sign In</Text>
+            </TouchableOpacity>
+          </View>
+          
+          <TouchableOpacity 
+            style={styles.registerContainer}
+            onPress={() => router.push('/register')}
+          >
+            <Text style={styles.registerText}>
+              Don't have an account? <Text style={styles.registerLink}>Sign Up</Text>
+            </Text>
           </TouchableOpacity>
         </View>
-        
-        <TouchableOpacity onPress={() => router.push('/register')}>
-          <Text style={styles.registerText}>
-            Don't have an account? <Text style={styles.registerLink}>Sign Up</Text>
-          </Text>
-        </TouchableOpacity>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -63,16 +80,37 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F8F9FA',
   },
+  scrollContent: {
+    flexGrow: 1,
+  },
+  header: {
+    alignItems: 'center',
+    paddingTop: 40,
+    paddingHorizontal: 20,
+  },
+  appName: {
+    fontFamily: 'Manrope-Bold',
+    fontSize: 28,
+    color: '#1A1A1A',
+    marginTop: 12,
+  },
+  appDescription: {
+    fontFamily: 'Manrope-Regular',
+    fontSize: 16,
+    color: '#6E7191',
+    textAlign: 'center',
+    marginTop: 8,
+    marginBottom: 24,
+  },
   content: {
     flex: 1,
     padding: 20,
     alignItems: 'center',
-    justifyContent: 'center',
   },
-  logo: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
+  heroImage: {
+    width: '100%',
+    height: 200,
+    borderRadius: 16,
     marginBottom: 24,
   },
   title: {
@@ -93,15 +131,26 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 8,
+    borderRadius: 12,
     padding: 16,
     marginBottom: 16,
     fontFamily: 'Manrope-Regular',
     fontSize: 16,
+    borderWidth: 1,
+    borderColor: '#E5E5E5',
+  },
+  forgotPassword: {
+    alignSelf: 'flex-end',
+    marginBottom: 24,
+  },
+  forgotPasswordText: {
+    fontFamily: 'Manrope-Medium',
+    fontSize: 14,
+    color: '#4A90E2',
   },
   loginButton: {
     backgroundColor: '#4A90E2',
-    borderRadius: 8,
+    borderRadius: 12,
     padding: 16,
     alignItems: 'center',
     marginTop: 8,
@@ -111,11 +160,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#FFFFFF',
   },
+  registerContainer: {
+    marginTop: 24,
+    paddingVertical: 16,
+  },
   registerText: {
     fontFamily: 'Manrope-Regular',
     fontSize: 14,
     color: '#6E7191',
-    marginTop: 24,
   },
   registerLink: {
     fontFamily: 'Manrope-Bold',
