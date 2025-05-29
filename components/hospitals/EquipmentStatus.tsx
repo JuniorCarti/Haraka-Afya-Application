@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { AlertCircle, CheckCircle2, Clock } from 'lucide-react-native';
+import { CircleAlert as AlertCircle, CircleCheck as CheckCircle2, Clock } from 'lucide-react-native';
 
 interface Equipment {
   id: string;
