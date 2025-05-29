@@ -5,13 +5,7 @@ Built in 48 hours using Bolt AI + Expo Go
 ---
 
 ## 📱 Try the App
-
-Scan this QR code with **[Expo Go](https://expo.dev/go)** on your phone: or click on this link https://visionary-buttercream-ac2549.netlify.app/
-
-![Scan to Try](https://github.com/user-attachments/assets/b0e38536-bb7e-4d0a-991f-25f9efaa0374)
-
-> No setup needed — just scan and go!
-
+ click on this link https://visionary-buttercream-ac2549.netlify.app/
 ---
 
 ## 💡 What It Does
