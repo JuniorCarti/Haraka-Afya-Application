@@ -1,10 +1,26 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, Switch } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, Switch, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ChevronRight, Bell, Lock, CircleHelp as HelpCircle, LogOut } from 'lucide-react-native';
+import { router } from 'expo-router';
 
 export default function ProfileScreen() {
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+  
+  const handleLogout = () => {
+    Alert.alert(
+      'Logout',
+      'Are you sure you want to logout?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { 
+          text: 'Logout',
+          onPress: () => router.replace('/login'),
+          style: 'destructive'
+        }
+      ]
+    );
+  };
   
   const menuItems = [
     {
@@ -96,7 +112,10 @@ export default function ProfileScreen() {
           </TouchableOpacity>
         </View>
         
-        <TouchableOpacity style={styles.logoutButton}>
+        <TouchableOpacity 
+          style={styles.logoutButton}
+          onPress={handleLogout}
+        >
           <LogOut size={20} color="#E53935" />
           <Text style={styles.logoutText}>Log Out</Text>
         </TouchableOpacity>

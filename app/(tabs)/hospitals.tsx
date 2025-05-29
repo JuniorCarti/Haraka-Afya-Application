@@ -3,16 +3,16 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'rea
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MapPin, Search, FileSliders as Sliders } from 'lucide-react-native';
 import { HospitalList } from '@/components/hospitals/HospitalList';
+import { EquipmentStatus } from '@/components/hospitals/EquipmentStatus';
 import { SearchInput } from '@/components/common/SearchInput';
 import { Platform } from 'react-native';
 
 export default function HospitalsScreen() {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentLocation, setCurrentLocation] = useState('New York, NY');
+  const [showEquipmentStatus, setShowEquipmentStatus] = useState(false);
   
   const handleLocationPermission = () => {
-    // In a real app, we would implement proper location permission handling
-    // This is a placeholder for demonstration purposes
     if (Platform.OS !== 'web') {
       // Location permissions would be handled here for native platforms
     } else {
@@ -42,33 +42,42 @@ export default function HospitalsScreen() {
           placeholder="Search hospitals, doctors, specialties..."
           style={styles.searchInput}
         />
-        <TouchableOpacity style={styles.filterButton}>
+        <TouchableOpacity 
+          style={styles.filterButton}
+          onPress={() => setShowEquipmentStatus(!showEquipmentStatus)}
+        >
           <Sliders size={20} color="#4A90E2" />
         </TouchableOpacity>
       </View>
       
-      <View style={styles.mapPreview}>
-        <Text style={styles.mapPlaceholder}>Map View</Text>
-        <Image
-          source={{ uri: 'https://images.pexels.com/photos/2159649/pexels-photo-2159649.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2' }}
-          style={styles.mapImage}
-        />
-        <View style={styles.mapOverlay} />
-        <TouchableOpacity style={styles.viewMapButton}>
-          <Text style={styles.viewMapText}>View Full Map</Text>
-        </TouchableOpacity>
-      </View>
-      
-      <View style={styles.listHeader}>
-        <Text style={styles.listTitle}>Cancer Treatment Centers</Text>
-        <TouchableOpacity>
-          <Text style={styles.seeAllText}>See All</Text>
-        </TouchableOpacity>
-      </View>
-      
-      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-        <HospitalList />
-      </ScrollView>
+      {showEquipmentStatus ? (
+        <EquipmentStatus />
+      ) : (
+        <>
+          <View style={styles.mapPreview}>
+            <Text style={styles.mapPlaceholder}>Map View</Text>
+            <Image
+              source={{ uri: 'https://images.pexels.com/photos/2159649/pexels-photo-2159649.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2' }}
+              style={styles.mapImage}
+            />
+            <View style={styles.mapOverlay} />
+            <TouchableOpacity style={styles.viewMapButton}>
+              <Text style={styles.viewMapText}>View Full Map</Text>
+            </TouchableOpacity>
+          </View>
+          
+          <View style={styles.listHeader}>
+            <Text style={styles.listTitle}>Cancer Treatment Centers</Text>
+            <TouchableOpacity>
+              <Text style={styles.seeAllText}>See All</Text>
+            </TouchableOpacity>
+          </View>
+          
+          <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+            <HospitalList />
+          </ScrollView>
+        </>
+      )}
     </SafeAreaView>
   );
 }

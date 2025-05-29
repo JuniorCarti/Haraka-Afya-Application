@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, ScrollView, Alert } from 'react-native';
 import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Heart } from 'lucide-react-native';
@@ -7,11 +7,20 @@ import { Heart } from 'lucide-react-native';
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = () => {
-    if (email && password) {
-      router.replace('/(tabs)');
+    if (!email || !password) {
+      Alert.alert('Error', 'Please fill in all fields');
+      return;
     }
+
+    setIsLoading(true);
+    // Simulate API call
+    setTimeout(() => {
+      setIsLoading(false);
+      router.replace('/(tabs)');
+    }, 1000);
   };
 
   return (
@@ -42,6 +51,7 @@ export default function LoginScreen() {
               onChangeText={setEmail}
               keyboardType="email-address"
               autoCapitalize="none"
+              editable={!isLoading}
             />
             
             <TextInput
@@ -50,14 +60,24 @@ export default function LoginScreen() {
               value={password}
               onChangeText={setPassword}
               secureTextEntry
+              editable={!isLoading}
             />
             
-            <TouchableOpacity style={styles.forgotPassword}>
+            <TouchableOpacity 
+              style={styles.forgotPassword}
+              onPress={() => router.push('/forgot-password')}
+            >
               <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
             </TouchableOpacity>
             
-            <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-              <Text style={styles.loginButtonText}>Sign In</Text>
+            <TouchableOpacity 
+              style={[styles.loginButton, isLoading && styles.loginButtonDisabled]}
+              onPress={handleLogin}
+              disabled={isLoading}
+            >
+              <Text style={styles.loginButtonText}>
+                {isLoading ? 'Signing in...' : 'Sign In'}
+              </Text>
             </TouchableOpacity>
           </View>
           
@@ -154,6 +174,9 @@ const styles = StyleSheet.create({
     padding: 16,
     alignItems: 'center',
     marginTop: 8,
+  },
+  loginButtonDisabled: {
+    backgroundColor: '#A0A0A0',
   },
   loginButtonText: {
     fontFamily: 'Manrope-Bold',
